@@ -1,0 +1,25 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+html,
+body,
+#app,
+.row {
+  height: 100%;
+}
+#app {
+  margin: 0;
+}
+.row {
+  background: #2d434c;
+}
+.col {
+  width: 400px;
+  background: #fff;
+  padding: 25px 30px;
+  border-radius: 30px;
+}
+.submit {
+  margin-right: 20px;
+}

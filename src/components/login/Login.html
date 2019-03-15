@@ -1,0 +1,41 @@
+<el-row type="flex" justify="center" align="middle" class="row">
+    <div class="grid-content bg-purple-light col">
+      <el-form
+        :model="LoginForm"
+        :rules="rules"
+        ref="LoginForm"
+        class="demo-LoginForm"
+      >
+        <el-form-item label="用户名" prop="username">
+          <el-input v-model="LoginForm.username"></el-input>
+        </el-form-item>
+        <el-form-item label="密码" prop="username">
+          <el-input
+            v-model="LoginForm.password"
+            @keyup.enter.native="submitForm"
+          ></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-row :gutter="20">
+            <el-col :span="6">
+              <div class="grid-content bg-purple">
+                <el-button
+                  type="primary"
+                  :plain="true"
+                  @click="submitForm"
+                  class="submit"
+                  >登录</el-button
+                >
+              </div>
+            </el-col>
+            <el-col :span="6">
+              <div class="grid-content bg-purple">
+                <el-button @click="resetForm()">取消</el-button>
+              </div>
+            </el-col>
+          </el-row>
+        </el-form-item>
+      </el-form>
+    </div>
+  </el-col>
+</el-row>
