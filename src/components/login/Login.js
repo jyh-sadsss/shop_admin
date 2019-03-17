@@ -1,4 +1,3 @@
-import axios from 'axios'
 export default {
   data() {
     return {
@@ -19,7 +18,7 @@ export default {
     }
   },
   methods: {
-    submitForm() {
+    async submitForm() {
       this.$refs.LoginForm.validate(async valid => {
         //async 里面有异步函数
         if (!valid) {
@@ -31,8 +30,8 @@ export default {
             center: true
           })
         }
-        let res = await axios.post(
-          'http://localhost:8888/api/private/v1/login',
+        let res = await this.$axios.post(
+          '/login',
           this.LoginForm
         )
         console.log(res)

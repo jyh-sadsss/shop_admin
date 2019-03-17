@@ -4,7 +4,7 @@
     <el-breadcrumb-item>用户管理</el-breadcrumb-item>
     <el-breadcrumb-item>用户列表</el-breadcrumb-item>
   </el-breadcrumb>
-  <el-row :gutter="20">
+  <el-row :gutter="20" class="adduser">
     <el-col :span="8"
       ><div class="grid-content bg-purple">
         <el-input
@@ -12,12 +12,18 @@
           v-model="query"
           class="input-with-select"
         >
-          <el-button slot="append" icon="el-icon-search" @click='searchKey'></el-button>
+          <el-button
+            slot="append"
+            icon="el-icon-search"
+            @click="searchKey"
+          ></el-button>
         </el-input></div
     ></el-col>
     <el-col :span="8"
       ><div class="grid-content bg-purple">
-        <el-button>添加用户</el-button>
+        <template>
+          <el-button @click="dialogFormVisible = true">添加用户</el-button>
+        </template>
       </div></el-col
     >
   </el-row>
@@ -27,10 +33,7 @@
     <el-table-column prop="mobile" label="电话"></el-table-column>
     <el-table-column prop="mg_state" label="用户状态">
       <template slot-scope="scope">
-        <el-switch
-          v-model="value"
-        >
-        </el-switch>
+        <el-switch v-model="scope.row.mg_state" @change="stateChanged(scope.row)"> </el-switch>
       </template>
     </el-table-column>
     <el-table-column prop label="操作">
@@ -40,13 +43,16 @@
           plain
           size="mini"
           icon="el-icon-edit"
+          @click="showEdite(scope.row)"
         ></el-button>
         <el-button
           type="danger"
           plain
           size="mini"
           icon="el-icon-delete"
+          @click="deleteUser(scope.row.id)"
         ></el-button>
+
         <el-button type="success" plain size="mini" icon="el-icon-check"
           >分配角色</el-button
         >
@@ -62,4 +68,53 @@
     :current-page="currentPage"
     @current-change="currentChange"
   ></el-pagination>
+  <!-- <el-button>添加用户</el-button> -->
+  <el-dialog
+    title="添加用户"
+    :visible.sync="dialogFormVisible"
+    :close-on-click-modal="true"
+  >
+    <el-form
+      :model="form"
+      :rules="rules"
+      ref="form"
+      label-width="100px"
+      class="demo-form"
+    >
+      <el-form-item label="用户名" prop="username">
+        <el-input v-model="form.username"></el-input>
+      </el-form-item>
+      <el-form-item label="密码" prop="password">
+        <el-input v-model="form.password"></el-input>
+      </el-form-item>
+      <el-form-item label="邮箱" prop="email">
+        <el-input v-model="form.email"></el-input>
+      </el-form-item>
+      <el-form-item label="手机" prop="mobile">
+        <el-input v-model="form.mobile"></el-input>
+      </el-form-item>
+    </el-form>
+    <div slot="footer" class="dialog-footer footer">
+      <el-button @click="cancelForm" :plain="true">取 消</el-button>
+      <el-button type="primary" @click="addData" :plain="true">确 定</el-button>
+    </div>
+  </el-dialog>
+  <el-dialog title="编辑用户" :visible.sync="dialogEditeVisible">
+    <el-form :model="editeForm">
+      <el-form-item label="用户名" :label-width="formLabelWidth">
+        <!-- <el-input v-model="form.username" autocomplete="off"></el-input> -->
+        <el-tag type="info">{{ editeForm.username }}</el-tag>
+      </el-form-item>
+      <el-form-item label="邮箱" :label-width="formLabelWidth">
+        <el-input v-model="editeForm.email" autocomplete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="电话" :label-width="formLabelWidth">
+        <el-input v-model="editeForm.mobile" autocomplete="off"></el-input>
+      </el-form-item>
+    </el-form>
+    <div slot="footer" class="dialog-footer footer">
+      <el-button @click="cancleEdite">取 消</el-button>
+      <el-button type="primary" @click="editeUserData">确 定</el-button>
+    </div>
+  </el-dialog>
 </div>

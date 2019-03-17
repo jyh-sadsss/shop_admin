@@ -7,7 +7,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         })
-
+        //没有错就向下执行，有错就走catch
         this.$message({
           type: 'success',
           message: '退出登录成功!',
