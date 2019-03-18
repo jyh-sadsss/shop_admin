@@ -6,7 +6,7 @@
 
 </script>
 
-<style lang='less' src='./Rights.less'>
+<style lang='less' src='./Rights.less' scoped>
 
 </style>
 

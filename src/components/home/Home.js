@@ -1,4 +1,12 @@
 export default {
+  data () {
+    return {
+      index: 1
+    }
+  },
+  created () {
+    this.index = this.$route.path
+  },
   methods: {
     async startLogout() {
       try {

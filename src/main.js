@@ -10,11 +10,11 @@ import Element from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
 import axios from 'axios'
-axios.defaults.baseURL = 'http://localhost:8888/api/private/v1';
+axios.defaults.baseURL = 'http://localhost:8888/api/private/v1/'
 axios.defaults.headers.common['Authorization'] = localStorage.getItem('token')
 
 //将axios添加到原型上就不需要再在各个页面引入axios了
-Vue.prototype.$axios=axios
+Vue.prototype.$axios = axios
 
 Vue.use(Element)
 

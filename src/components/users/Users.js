@@ -78,10 +78,11 @@ export default {
         params: {
           query,
           pagenum: currentPage,
-          pagesize: 2
+          pagesize: 2,
         }
       })
       //这里将userData替换掉
+      console.log(res)
       this.usersData = res.data.data.users
       console.log(this.usersData)
       this.total = res.data.data.total
@@ -118,7 +119,7 @@ export default {
       this.dialogFormVisible = false
       this.$refs['form'].resetFields()
     },
-    showEdite (obj) {
+    showEdite(obj) {
       //我现在拿到的对象就是当前那一行的数据
       this.dialogEditeVisible = true
       console.log(obj)
