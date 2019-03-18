@@ -20,9 +20,9 @@
 .row1 {
   margin-top: 10px;
   border-bottom: 1px dashed #ccc;
-  &:last-child {
-    border-bottom: none;
-  }
+}
+.row1:last-child {
+  border-bottom: none;
 }
 .col {
   margin-bottom: 20px;

@@ -118,7 +118,8 @@ export default {
       this.dialogFormVisible = false
       this.$refs['form'].resetFields()
     },
-    showEdite(obj) {
+    showEdite (obj) {
+      //我现在拿到的对象就是当前那一行的数据
       this.dialogEditeVisible = true
       console.log(obj)
       //展示数据
