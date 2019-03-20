@@ -1,0 +1,45 @@
+<div>
+  <el-button type="success" plain class="btn">添加分类</el-button>
+  <el-table :data="cateTable" style="width: 100%">
+    <el-table-tree-column
+      file-icon="icon icon-file"
+      folder-icon="icon icon-folder"
+      prop="cat_name"
+      label="分类名称"
+      width="220"
+      levelKey="cat_level"
+      treeKey="cat_id"
+      parentKey="cat_pid"
+      :indentSize='30'
+    ></el-table-tree-column>
+    <el-table-column prop="cat_deleted" label="是否有效" width="180">
+      <template slot-scope="scope">
+        {{ scope.row.cat_deleted ? '否' : '是' }}
+      </template>
+    </el-table-column>
+    <el-table-column prop="cat_level" label="层级">
+      <template slot-scope="scope">
+        <span v-show="scope.row.cat_level===0">
+          一级
+        </span>
+      </template>
+    </el-table-column>
+    <el-table-column label="操作">
+      <template>
+        <el-button icon="el-icon-edit" plain type="primary" size="mini">
+        </el-button>
+        <el-button icon="el-icon-delete" plain type="danger" size="mini">
+        </el-button>
+      </template>
+    </el-table-column>
+  </el-table>
+  <el-pagination
+    background
+    layout="prev, pager, next"
+    :total="total"
+    class="pagination"
+    :page-size="4"
+    :current-page="currentPage"
+    @current-change="currentChange"
+  ></el-pagination>
+</div>

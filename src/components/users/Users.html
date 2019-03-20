@@ -33,7 +33,11 @@
     <el-table-column prop="mobile" label="电话"></el-table-column>
     <el-table-column prop="mg_state" label="用户状态">
       <template slot-scope="scope">
-        <el-switch v-model="scope.row.mg_state" @change="stateChanged(scope.row)"> </el-switch>
+        <el-switch
+          v-model="scope.row.mg_state"
+          @change="stateChanged(scope.row)"
+        >
+        </el-switch>
       </template>
     </el-table-column>
     <el-table-column prop label="操作">
@@ -52,7 +56,12 @@
           icon="el-icon-delete"
           @click="deleteUser(scope.row.id)"
         ></el-button>
-        <el-button type="success" plain size="mini" icon="el-icon-check"
+        <el-button
+          type="success"
+          plain
+          size="mini"
+          icon="el-icon-check"
+          @click="showAssignRoles(scope.row)"
           >分配角色</el-button
         >
       </template>
@@ -67,6 +76,7 @@
     :current-page="currentPage"
     @current-change="currentChange"
   ></el-pagination>
+
   <!-- <el-button>添加用户</el-button> -->
   <el-dialog
     title="添加用户"
@@ -98,11 +108,12 @@
       <el-button type="primary" @click="addData" :plain="true">确 定</el-button>
     </div>
   </el-dialog>
+
+  <!-- 编辑角色 -->
   <el-dialog title="编辑用户" :visible.sync="dialogEditeVisible">
     <el-form :model="editeForm">
       <el-form-item label="用户名" :label-width="formLabelWidth">
-        <!-- <el-input v-model="form.username" autocomplete="off"></el-input> -->
-        <el-tag type="info">{{ editeForm.username }}</el-tag>
+        <el-tag type="info">{{ editeForm.roleName }}</el-tag>
       </el-form-item>
       <el-form-item label="邮箱" :label-width="formLabelWidth">
         <el-input v-model="editeForm.email" autocomplete="off"></el-input>
@@ -114,6 +125,34 @@
     <div slot="footer" class="dialog-footer footer">
       <el-button @click="cancleEdite">取 消</el-button>
       <el-button type="primary" @click="editeUserData">确 定</el-button>
+    </div>
+  </el-dialog>
+
+  <!-- 分配角色 -->
+  <el-dialog title="分配角色" :visible.sync="assignRolesVisible">
+    <el-form :model="assignRolesForm">
+      <el-form-item label="用户名" :label-width="formLabelWidth">
+        <el-tag type="primary">{{ assignRolesForm.username }}</el-tag>
+      </el-form-item>
+      <el-form-item label="角色列表" :label-width="formLabelWidth">
+        <!-- assignRolesForm.rid通过这个用户的角色id来标识它对应拥有哪一些角色 -->
+        <el-select v-model="assignRolesForm.rid==0?'':assignRolesForm.rid" placeholder="请选择角色">
+          <!-- v-model值就是当前的value值，但是显示出来的是label的值，
+              所以显示的是该id值下对应的roleName-->
+          <!-- assignRolesForm.rid对应的就是item.id -->
+          <el-option
+            v-for="item in assignRolesForm.rolesList"
+            :key="item.id"
+            :label="item.roleName"
+            :value="item.id"
+          >
+          </el-option>
+        </el-select>
+      </el-form-item>
+    </el-form>
+    <div slot="footer" class="dialog-footer footer">
+      <el-button @click="hideAssignRoles">取 消</el-button>
+      <el-button type="primary" @click="addAssignRioles">确 定</el-button>
     </div>
   </el-dialog>
 </div>

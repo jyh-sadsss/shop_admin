@@ -1,11 +1,11 @@
 export default {
-  data () {
+  data() {
     return {
-      index: 1
+      menusList: []
     }
   },
-  created () {
-    this.index = this.$route.path
+  created() {
+    this.getLeftMenu()
   },
   methods: {
     async startLogout() {
@@ -28,6 +28,13 @@ export default {
           type: 'info',
           message: '您已取消退出登录!'
         })
+      }
+    },
+    async getLeftMenu() {
+      let res = await this.$axios.get('menus')
+      console.log(res)
+      if (res.data.meta.status === 200) {
+        this.menusList = res.data.data
       }
     }
   }

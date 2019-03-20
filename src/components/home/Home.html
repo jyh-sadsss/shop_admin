@@ -22,27 +22,24 @@
   <el-container>
     <el-aside width="200px" class="aside">
       <el-menu
-        :default-active="index"
+        :default-active="$route.path"
         class="el-menu-vertical-demo"
         background-color="#545c64"
         text-color="#fff"
         active-text-color="#ffd04b"
         router
       >
-        <el-submenu index="1">
+        <el-submenu v-for="item1 in menusList" :index="item1.id+''" :key="item1.id">
           <template slot="title">
             <i class="el-icon-location"></i>
-            <span>用户管理</span>
+            <span>{{ item1.authName }}</span>
           </template>
-          <el-menu-item index="/users">用户列表</el-menu-item>
-        </el-submenu>
-        <el-submenu index="2">
-          <template slot="title">
-            <i class="el-icon-location"></i>
-            <span>权限管理</span>
-          </template>
-          <el-menu-item index="/roles">角色列表</el-menu-item>
-          <el-menu-item index="/rights">权限列表</el-menu-item>
+          <el-menu-item
+            v-for="item2 in item1.children"
+            :index="'/'+item2.path"
+            :key="item2.id"
+            >{{item2.authName}}</el-menu-item
+          >
         </el-submenu>
       </el-menu>
     </el-aside>

@@ -41,6 +41,21 @@ export default {
         mobile: '',
         id: ''
       },
+      //assignRolesForm必须是一个对象
+      assignRolesForm: {
+        username: '23333',
+        id: 1,
+        rid: 1,
+        rolesList: []
+      },
+      options: [
+        {
+          //value 遍历的:key
+          id: '选项1',
+          label: '黄金糕'
+        }
+      ],
+      value: '',
       total: 0,
       query: '',
       currentPage: 1,
@@ -48,6 +63,7 @@ export default {
       value: false,
       dialogFormVisible: false,
       dialogEditeVisible: false,
+      assignRolesVisible: false,
       form: {
         username: '',
         password: '',
@@ -70,7 +86,11 @@ export default {
     }
   },
   created() {
-    this.getData(1)
+    // 获取到当前的路由参数
+    let page = this.$route.params.page
+    console.log(page)
+    this.getData(page)
+    this.getAllRoles()
   },
   methods: {
     async getData(currentPage = 1, query = '') {
@@ -78,7 +98,7 @@ export default {
         params: {
           query,
           pagenum: currentPage,
-          pagesize: 2,
+          pagesize: 2
         }
       })
       //这里将userData替换掉
@@ -92,14 +112,11 @@ export default {
     currentChange(res) {
       console.log(res)
       this.getData(res, this.query)
+      //编程导航
+      this.$router.push('/users/' + res)
     },
     searchKey() {
       this.getData(1, this.query)
-    },
-    open() {
-      this.$alert('<strong>这是 <i>HTML</i> 片段</strong>', 'HTML 片段', {
-        dangerouslyUseHTMLString: true
-      })
     },
     //异步请求
     async addData() {
@@ -117,6 +134,11 @@ export default {
     },
     cancelForm() {
       this.dialogFormVisible = false
+      this.$message({
+        message: '已取消次操作',
+        type: 'info',
+        duration: 1000
+      })
       this.$refs['form'].resetFields()
     },
     showEdite(obj) {
@@ -195,6 +217,47 @@ export default {
       console.log(res)
       if (res.data.meta.status === 200) {
         this.getData(1)
+      }
+    },
+    //获取所有的角色列表，展示在下拉框里面
+    async getAllRoles() {
+      let res = await this.$axios.get('roles')
+      console.log(res)
+      if (res.data.meta.status === 200) {
+        this.assignRolesForm.rolesList = res.data.data
+      }
+    },
+    async showAssignRoles(row) {
+      this.assignRolesVisible = true
+      const { username, id } = row
+      this.assignRolesForm.username = username
+      this.assignRolesForm.id = id
+      //这里获取到对应id下的rid
+      let res = await this.$axios.get(`users/${id}`)
+      console.log(res)
+      this.assignRolesForm.rid = res.data.data.rid
+    },
+    hideAssignRoles() {
+      this.assignRolesVisible = false
+      this.$message({
+        message: '您已取消该操作',
+        type: 'info',
+        duration: 1000
+      })
+    },
+    async addAssignRioles() {
+      let res = await this.$axios.put(`users/${this.assignRolesForm.id}/role`, {
+        rid: this.assignRolesForm.rid
+      })
+      console.log(res)
+      if (res.data.meta.status === 200) {
+        this.getData(this.currentPage)
+        this.$message({
+          message: res.data.meta.msg,
+          type: 'success',
+          duration: 1000
+        })
+        this.assignRolesVisible = false
       }
     }
   }

@@ -6,6 +6,7 @@ import Home from '../components/home/Home.vue'
 import Users from '../components/users/Users.vue'
 import Roles from '../components/roles/Roles.vue'
 import Rights from '../components/rights/Rights.vue'
+import Categories from '../components/categories/Categories.vue'
 Vue.use(VueRouter)
 //实例化路由
 const router = new VueRouter({
@@ -16,9 +17,11 @@ const router = new VueRouter({
       path: '/home',
       component: Home,
       children: [
-        { path: '/users', component: Users },
+        // 路有参数，可有可无
+        { path: '/users/:page?', component: Users },
         { path: '/roles', component: Roles },
-        { path: '/rights', component: Rights }
+        { path: '/rights', component: Rights },
+        { path:'/categories', component: Categories}
       ]
     },
     { path: '/', redirect: '/login' }

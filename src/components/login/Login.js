@@ -2,8 +2,8 @@ export default {
   data() {
     return {
       LoginForm: {
-        username: '',
-        password: ''
+        username: 'admin',
+        password: '123456'
       },
       rules: {
         username: [
@@ -30,10 +30,7 @@ export default {
             center: true
           })
         }
-        let res = await this.$axios.post(
-          '/login',
-          this.LoginForm
-        )
+        let res = await this.$axios.post('/login', this.LoginForm)
         console.log(res)
         //await 等待一个异步函数的结果 后面要跟一个异步操作的promise实例对象
         if (res.data.meta.status === 200) {
