@@ -235,7 +235,7 @@ export default {
       //这里获取到对应id下的rid
       let res = await this.$axios.get(`users/${id}`)
       console.log(res)
-      this.assignRolesForm.rid = res.data.data.rid
+      this.assignRolesForm.rid = rid === 0 ? '' : rid
     },
     hideAssignRoles() {
       this.assignRolesVisible = false

@@ -28,7 +28,8 @@ export default {
       dialogImageUrl: '',
       dialogVisible: false,
       editorOption: {
-        /* quill options */
+      /* quill options */
+      placeholder: '请输入描述内容'
       }
     }
   },

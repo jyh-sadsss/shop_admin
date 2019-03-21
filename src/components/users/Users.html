@@ -136,7 +136,7 @@
       </el-form-item>
       <el-form-item label="角色列表" :label-width="formLabelWidth">
         <!-- assignRolesForm.rid通过这个用户的角色id来标识它对应拥有哪一些角色 -->
-        <el-select v-model="assignRolesForm.rid==0?'':assignRolesForm.rid" placeholder="请选择角色">
+        <el-select v-model="assignRolesForm.rid" placeholder="请选择角色">
           <!-- v-model值就是当前的value值，但是显示出来的是label的值，
               所以显示的是该id值下对应的roleName-->
           <!-- assignRolesForm.rid对应的就是item.id -->
