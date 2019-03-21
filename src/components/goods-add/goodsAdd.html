@@ -1,0 +1,69 @@
+<div>
+  <el-steps :active="active" finish-status="success">
+    <el-step title="第一步" description="基本信息"></el-step>
+    <el-step title="第二步" description="商品图片"></el-step>
+    <el-step title="第三步" description="商品内容"></el-step>
+  </el-steps>
+  <el-tabs tab-position="left" v-model="name" @tab-click="tabclick">
+    <el-tab-pane label="用户管理" name="1">
+      <el-form ref="form" :model="addCateForm" label-width="80px">
+        <el-form-item label="商品名称">
+          <el-input v-model="addCateForm.goods_name"></el-input>
+        </el-form-item>
+        <el-form-item label="商品价格">
+          <el-input v-model="addCateForm.goods_price"></el-input>
+        </el-form-item>
+        <el-form-item label="商品重量">
+          <el-input v-model="addCateForm.goods_weight"></el-input>
+        </el-form-item>
+        <el-form-item label="商品数量">
+          <el-input v-model="addCateForm.goods_number"></el-input>
+        </el-form-item>
+        <el-form-item label="商品分类">
+          <el-cascader
+            :options="options"
+            v-model="addCateForm.goods_cat"
+            :props="defaultProps"
+          ></el-cascader>
+        </el-form-item>
+        <el-form-item label="是否促销">
+          <template>
+            <el-radio v-model="isPromotion" :label="true">是</el-radio>
+            <el-radio v-model="isPromotion" :label="false">否</el-radio>
+          </template>
+        </el-form-item>
+      </el-form>
+      <el-button type="primary" @click='next(2,"2")'>下一步</el-button>
+    </el-tab-pane>
+    <el-tab-pane label="配置管理" name="2">
+      <el-upload
+        action="http://localhost:8888/api/private/v1/upload"
+        list-type="picture-card"
+        :on-preview="handlePictureCardPreview"
+        :on-remove="handleRemove"
+        :headers="headers"
+        :on-success="handelSuccess"
+      >
+        <el-button size="small" type="primary">点击上传</el-button>
+        <div slot="tip" class="el-upload__tip">
+          只能上传jpg/png文件，且不超过500kb
+        </div>
+      </el-upload>
+      <el-dialog :visible.sync="dialogVisible">
+        <img width="100%" :src="dialogImageUrl" alt="" />
+      </el-dialog>
+      <el-button type="primary" @click='next(3,"3")' class="btn"
+        >下一步</el-button
+      >
+    </el-tab-pane>
+    <el-tab-pane label="角色管理" name="3" class="fat">
+      <quill-editor
+        v-model="addCateForm.goods_introduce"
+        ref="myQuillEditor"
+        :options="editorOption"
+      >
+      </quill-editor>
+      <el-button type="primary" @click='addGoods'>确定</el-button>
+    </el-tab-pane>
+  </el-tabs>
+</div>

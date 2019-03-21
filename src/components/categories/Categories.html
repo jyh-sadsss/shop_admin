@@ -1,5 +1,7 @@
 <div>
-  <el-button type="success" plain class="btn">添加分类</el-button>
+  <el-button type="success" plain class="btn" @click="showCateDialog"
+    >添加分类</el-button
+  >
   <el-table :data="cateTable" style="width: 100%">
     <el-table-tree-column
       file-icon="icon icon-file"
@@ -10,7 +12,7 @@
       levelKey="cat_level"
       treeKey="cat_id"
       parentKey="cat_pid"
-      :indentSize='30'
+      :indentSize="30"
     ></el-table-tree-column>
     <el-table-column prop="cat_deleted" label="是否有效" width="180">
       <template slot-scope="scope">
@@ -42,4 +44,28 @@
     :current-page="currentPage"
     @current-change="currentChange"
   ></el-pagination>
+
+  <!-- 对话框 -->
+  <el-dialog title="添加分类" :visible.sync="dialogCateVisible">
+    <el-form :model="cateForm" ref='form'>
+      <el-form-item label="分类名称" label-width="120px">
+        <el-input v-model="cateForm.cat_name"></el-input>
+      </el-form-item>
+      <el-form-item label="父级名称" label-width="120px">
+        <el-cascader
+        :options="options"
+        change-on-select
+        :props='defaultProps'
+        v-model='cateForm.valueArr'
+      ></el-cascader>
+        </el-select>
+      </el-form-item>
+    </el-form>
+    <div slot="footer" class="dialog-footer">
+      <el-button @click="hideCateDialog">取 消</el-button>
+      <el-button type="primary" @click="addCate"
+        >确 定</el-button
+      >
+    </div>
+  </el-dialog>
 </div>
