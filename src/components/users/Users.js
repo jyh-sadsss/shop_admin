@@ -247,7 +247,7 @@ export default {
         duration: 1000
       })
     },
-    async addAssignRioles() {
+    async addAssignRoles() {
       let res = await this.$axios.put(`users/${this.assignRolesForm.id}/role`, {
         rid: this.assignRolesForm.rid
       })
